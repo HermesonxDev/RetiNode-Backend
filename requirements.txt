@@ -1,0 +1,14 @@
+asgiref==3.7.2
+Django==3.2.23
+django-filter==23.5
+djangorestframework==3.14.0
+django-cors-headers==4.1.0
+importlib-metadata==6.7.0
+Markdown==3.4.4
+psycopg2==2.9.9
+psycopg2-binary==2.9.9
+pytz==2023.3.post1
+pillow==9.5.0
+sqlparse==0.4.4
+typing_extensions==4.7.1
+zipp==3.15.0
