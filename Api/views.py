@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from .models import *
 from .serializers import *
 
-
 class DiscussionViewSet(ModelViewSet):
     queryset = Discussions.objects.all()
     serializer_class = DiscussionSerializer
@@ -60,59 +59,71 @@ class UserViewSet(ModelViewSet):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(status=status.HTTP_404_NOT_FOUND)
         except Exception as error:
-            return {'message': 'Ocorreu um erro na aplicação', 'error': str(error)}
+            return {'message': 'Ocorreu um erro ao listar os usuários', 'error': str(error)}
 
-# @api_view(['GET'])
-# def logs(request):
-#     try:
-#         logs = Logs.objects.all()
-#         serialized_logs = LogsSerializer(logs, many=True)
-#         if logs:
-#             return Response(serialized_logs.data, status=status.HTTP_200_OK)
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#     except Exception as error:
-#         return {'message': 'Ocorreu um erro na aplicação', 'error': str(error)}
+class LogViewSet(ModelViewSet):
+    queryset = Logs.objects.all()
+    serializer_class = LogsSerializer
 
-# @api_view(['GET'])
-# def lastLog(request):
-#     try:
-#         log = Logs.objects.first()
-#         serialized_log = LogsSerializer(log)
-#         if log:
-#             return Response(serialized_log.data, status=status.HTTP_200_OK)
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#     except Exception as error:
-#         return {'message': 'Ocorreu um erro na aplicação', 'error': str(error)}
+    @action(methods=['GET'], detail=False, permission_classes=[AllowAny])
+    def get_logs(self, request):
+        try:
+            logs = self.queryset
+            serializer = self.serializer_class(logs, many=True)
+            if logs:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception as error:
+            return {'message': 'Ocorreu um erro ao listar os logs', 'error': str(error)}
 
-# @api_view(['GET'])
-# def trendingArticles(request):
-#     try:
-#         articles = Discussions.objects.filter(reads__gte=500)
-#         serialized_articles = DiscussionSerializer(articles, many=True)
-#         if articles:
-#             return Response(serialized_articles.data, status=status.HTTP_200_OK)
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#     except Exception as error:
-#         return {'message': 'Ocorreu um erro na aplicação', 'error': str(error)}
+    @action(methods=['GET'], detail=False, permission_classes=[AllowAny])
+    def last_log(self, request):
+        try:
+            log = Logs.objects.first()
+            serializer = self.serializer_class(log)
+            if log:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception as error:
+            return {'message': 'Ocorreu um erro ao buscar o último log', 'error': str(error)}
 
-# @api_view(['GET'])
-# def comments(request):
-#     try:
-#         comments = Comments.objects.all()
-#         serialized_comment = CommentSerializer(comments, many=True)
-#         if comments:
-#             return Response(serialized_comment.data, status=status.HTTP_200_OK)
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#     except Exception as error:
-#         return {'message': 'Ocorreu um erro na aplicação', 'error': str(error)}
+class TrendingArticlesViewSet(ModelViewSet):
+    queryset = Discussions.objects.all()
+    serializer_class = DiscussionSerializer
 
-# @api_view(['GET'])
-# def commentators_of_the_week(request):
-#     try:
-#         commentators = Comments.objects.filter(likes__gte=500)
-#         serialized_commentators = CommentSerializer(commentators, many=True)
-#         if commentators:
-#             return Response(serialized_commentators.data, status=status.HTTP_200_OK)
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#     except Exception as error:
-#         return {'message': 'Ocorreu um erro na aplicação', 'error': str(error)}
+    @action(methods=['GET'], detail=False, permission_classes=[AllowAny])
+    def get_trendingArticles(self, request):
+        try:
+            articles = Discussions.objects.filter(reads__gte=500)
+            serializer = self.serializer_class(articles, many=True)
+            if articles:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception as error:
+            return {'message': 'Ocorreu um erro ao listar os artigos em alta', 'error': str(error)}
+
+class CommentsViewSet(ModelViewSet):
+    queryset = Comments.objects.all()
+    serializer_class = CommentSerializer
+
+    @action(methods=['GET'], detail=False, permission_classes=[AllowAny])
+    def get_comments(self, request):
+        try:
+            comments = self.queryset
+            serializer = self.serializer_class(comments, many=True)
+            if comments:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception as error:
+            return {'message': 'Ocorreu um erro ao listar os comentários', 'error': str(error)}
+
+    @action(methods=['GET'], detail=False, permission_classes=[AllowAny])
+    def commentators_of_the_week(self, request):
+        try:
+            commentators = Comments.objects.filter(likes__gte=500)
+            serializer = self.serializer_class(commentators, many=True)
+            if commentators:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception as error:
+            return {'message': 'Ocorreu um erro ao listar os comentaristas da semana', 'error': str(error)}
