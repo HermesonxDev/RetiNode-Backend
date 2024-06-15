@@ -13,7 +13,7 @@ def upload_image_user(instance, filename):
 class User(models.Model):
     userID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField("Nome", max_length=255, null=False, blank=False)
-    profileName = models.CharField("Nome do perfil", max_length=255, null=False, blank=False)
+    username = models.CharField("Nome do perfil", max_length=255, null=False, blank=False)
     date_of_birth = models.DateField("Data de nascimento", null=False, blank=False)
     email = models.EmailField("Email", max_length=255, null=False, blank=False)
     image = models.ImageField("Foto de usuário", upload_to=upload_image_user, null=True, blank=True)
