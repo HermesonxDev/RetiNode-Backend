@@ -18,11 +18,11 @@ class AuthenticationViewSet(ModelViewSet):
             else:
                 name = request.data.get("name")
                 username = request.data.get("username")
-                date_of_birth = request.data.get("")
+                date_of_birth = request.data.get("date_of_birth")
                 email = request.data.get("email")
                 password = request.data.get("password")
 
-                new_user = User.objects.create(name=name, username=username, date_of_birth=date_of_birth, email=email)
+                new_user = User.objects.create(name=name, username=username, date_of_birth=date_of_birth, email=email, password=password)
                 new_user.save()
 
                 return Response("Usuário cadastrado com sucesso!", status=status.HTTP_200_OK)

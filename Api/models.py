@@ -16,6 +16,7 @@ class User(models.Model):
     username = models.CharField("Nome do perfil", max_length=255, null=False, blank=False)
     date_of_birth = models.DateField("Data de nascimento", null=False, blank=False)
     email = models.EmailField("Email", max_length=255, null=False, blank=False)
+    password = models.CharField("Senha", max_length=255, null=False, blank=False)
     image = models.ImageField("Foto de usuário", upload_to=upload_image_user, null=True, blank=True)
 
     class Meta:
